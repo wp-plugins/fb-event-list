@@ -38,6 +38,9 @@ Please visit the [Facebook Developer site](https://developers.facebook.com/apps)
 
 = 0.1 =
 * First version released as public beta.
+= 0.2 =
+* Added reference to Mike Dalisay
+* Implemented WP Object Cache API
 
 == Upgrade Notice ==
 
