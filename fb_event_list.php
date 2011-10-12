@@ -44,7 +44,7 @@ try {
 	), $atts));
 
 
-$fqlResult = wp_cache_get( 'fb_event_list_result' );
+$fqlResult = wp_cache_get( 'fb_event_list_result', 'fb_event_list' );
 if ( false == $fqlResult ) {
 
 // Authenticate
@@ -77,7 +77,7 @@ $param  =   array(
 
 $fqlResult   =   $facebook->api($param);
 
-	wp_cache_set( 'fb_event_list_result', $fqlResult );
+	wp_cache_set( 'fb_event_list_result', $fqlResult, 'fb_event_list', 300 );
 } 
 
 //looping through retrieved data
@@ -89,14 +89,24 @@ foreach( $fqlResult as $keys => $values ){
     //getting 'start' and 'end' date,
     //'l, F d, Y' pattern string will give us
     //something like: Thursday, July 30, 2015
-    $start_date = date( 'l, F d, Y', $values['start_time'] );
-    $end_date = date( 'l, F d, Y', $values['end_time'] );
+    $start_dt = new DateTime();
+    $end_dt = new DateTime();
+    // Facebook issues the events in Pacific time - need to adjust by the correct
+    // number of seconds to get to UK time.
+
+    $start_dt->setTimestamp( $values['start_time']-28800 );
+    $end_dt->setTimestamp( $values['end_time']-28800 );
+    $start_dt->setTimeZone( new DateTimeZone('Europe/London'));
+    $end_dt->setTimeZone( new DateTimeZone('Europe/London'));
+
+    $start_date = $start_dt->format( 'l, F d, Y' );
+    $end_date = $end_dt->format( 'l, F d, Y' );
 
     //getting 'start' and 'end' time
     //'g:i a' will give us something
     //like 6:30 pm
-    $start_time = date( 'g:i a', $values['start_time'] );
-    $end_time = date( 'g:i a', $values['end_time'] );
+    $start_time = $start_dt->format( 'g:i a' );
+    $end_time = $end_dt->format( 'g:i a' );
 
     //printing the data
     echo "<div class='event'>";

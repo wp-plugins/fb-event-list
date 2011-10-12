@@ -4,7 +4,7 @@ Donate link:
 Tags: Facebook, events
 Requires at least: 3.2.1
 Tested up to: 3.2.1
-Stable tag: 0.2
+Stable tag: 0.3
 
 A plugin to generate a list of events from a Facebook fan page using a shortcode. 
 
@@ -25,6 +25,7 @@ Based on code by Mike Dalisay.
 1. Upload `fb_event_list.zip` to the `/wp-content/plugins/` directory and unzip
 1. Activate the plugin through the 'Plugins' menu in WordPress
 1. Place `[fb_event_list appid="" appsecret="" pageid=""]` in your post or page
+1. If necessary, edit the timezone and offset in the code of the plugin at line number 97. This is currently set to convert the events from Pacific time (used by Facebook) to UK time by an 8 hour offset. 
 
 == Frequently Asked Questions ==
 
@@ -41,6 +42,8 @@ Please visit the [Facebook Developer site](https://developers.facebook.com/apps)
 = 0.2 =
 * Added reference to Mike Dalisay
 * Implemented WP Object Cache API
+= 0.3 =
+* Added timezone offset for UK
 
 == Upgrade Notice ==
 
