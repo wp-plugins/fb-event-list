@@ -4,7 +4,7 @@ Donate link:
 Tags: Facebook, events
 Requires at least: 3.2.1
 Tested up to: 3.2.1
-Stable tag: 0.1
+Stable tag: 0.2
 
 A plugin to generate a list of events from a Facebook fan page using a shortcode. 
 
@@ -15,6 +15,10 @@ This plugin generates a list of events from a Facebook fan page. The events list
 You must have a Facebook developer account with an application ID and application secret. To request one, please visit [Facebook](https://developers.facebook.com/apps "Facebook developer site") 
 
 To use the plugin, simply include the short-code [fb_event_list appid="" appsecret="" pageid=""] in a post or page. 
+
+Uses the WP Object Cache API in case you have W3 Total Cache installed. 
+
+Based on code by Mike Dalisay. 
 
 == Installation ==
 
