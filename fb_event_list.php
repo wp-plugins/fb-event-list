@@ -1,7 +1,7 @@
 <?php
 /* Plugin Name: Facebook Event List Shortcode
  * Plugin URI: http://www.wordsmith-communication.co.uk/
- * Description: A simple shortcode to generate an event list from a Facebook Fan Page. Requires 
+ * Description: A simple shortcode to generate an event list from a Facebook Fan Page. 
  * Author: Jon Smith
  * Version: 0.1
  * Author URI: http://www.wordsmith-communication.co.uk/
@@ -23,6 +23,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  *
+ * Based on code by Mike Dalisay
+ * http://www.codeofaninja.com/2011/07/display-facebook-events-to-your-website.html
+ *
  */
  
 // make sure this api file is in your directory, if not get it here https://github.com/facebook/php-sdk/tree/master/src
@@ -30,11 +33,19 @@ require 'facebook.php';
 
 // [fb_event_list appid="" pageid="" appsecret=""]
 function fb_event_list($atts){
+
+ob_start();
+
+try {
 	extract(shortcode_atts(array(
 	'appid' => '',
 	'pageid' => '',
 	'appsecret' => '',
 	), $atts));
+
+
+$fqlResult = wp_cache_get( 'fb_event_list_result' );
+if ( false == $fqlResult ) {
 
 // Authenticate
 $facebook = new Facebook(array(
@@ -54,8 +65,6 @@ $facebook = new Facebook(array(
 //event_member table where the uid is the id of your fanpage.
 //*yes, you fanpage automatically becomes an event_member
 //once it creates an event
-ob_start();
-
 $fql    =   "SELECT name, pic, start_time, end_time, location, description, eid 
             FROM event WHERE eid IN ( SELECT eid FROM event_member WHERE uid = " . $pageid . " ) 
             ORDER BY start_time asc";
@@ -66,8 +75,10 @@ $param  =   array(
 'callback'  => ''
 );
 
-try {
 $fqlResult   =   $facebook->api($param);
+
+	wp_cache_set( 'fb_event_list_result', $fqlResult );
+} 
 
 //looping through retrieved data
 foreach( $fqlResult as $keys => $values ){
@@ -89,11 +100,11 @@ foreach( $fqlResult as $keys => $values ){
 
     //printing the data
     echo "<div class='event'>";
-    echo "<div style='float: left; margin: 0 8px 0 0;'>";
-    echo "<a href='http://www.facebook.com/event.php?eid={$values['eid']}'>";
-    echo "<img src={$values['pic']} />";
-    echo "</a>";
-    echo "</div>";
+//    echo "<div style='float: left; margin: 0 8px 0 0;'>";
+//    echo "<a href='http://www.facebook.com/event.php?eid={$values['eid']}'>";
+//    echo "<img src={$values['pic']} />";
+//    echo "</a>";
+//    echo "</div>";
     echo "<div style='float: left;'>";
     echo "<a href='http://www.facebook.com/event.php?eid={$values['eid']}'>";
     echo "<div style='font-size: 26px'>{$values['name']}</div>";
@@ -117,6 +128,7 @@ foreach( $fqlResult as $keys => $values ){
     echo "</div>";
     echo "<div style='clear: both'></div>";
     echo "</div>";
+    echo "<br />";
     }
 } catch (Exception $e) {
     echo 'Caught exception: ',  $e->getMessage(), "\n";
