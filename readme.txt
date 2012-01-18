@@ -4,7 +4,7 @@ Donate link:
 Tags: Facebook, events
 Requires at least: 3.2.1
 Tested up to: 3.2.1
-Stable tag: 0.3
+Stable tag: 0.1
 
 A plugin to generate a list of events from a Facebook fan page using a shortcode. 
 
@@ -16,16 +16,12 @@ You must have a Facebook developer account with an application ID and applicatio
 
 To use the plugin, simply include the short-code [fb_event_list appid="" appsecret="" pageid=""] in a post or page. 
 
-Uses the WP Object Cache API in case you have W3 Total Cache installed. 
-
-Based on code by Mike Dalisay. 
-
 == Installation ==
 
 1. Upload `fb_event_list.zip` to the `/wp-content/plugins/` directory and unzip
 1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Place `[fb_event_list appid="" appsecret="" pageid=""]` in your post or page
-1. If necessary, edit the timezone and offset in the code of the plugin at line number 97. This is currently set to convert the events from Pacific time (used by Facebook) to UK time by an 8 hour offset. 
+1. Place `[fb_event_list appid="" appsecret="" pageid="" locale=""]` in your post or page
+1. Locale should be taken from the list of supported php timezone here: http://www.php.net/manual/en/timezones.php default is Europe/London
 
 == Frequently Asked Questions ==
 
@@ -39,11 +35,9 @@ Please visit the [Facebook Developer site](https://developers.facebook.com/apps)
 
 = 0.1 =
 * First version released as public beta.
+
 = 0.2 =
-* Added reference to Mike Dalisay
-* Implemented WP Object Cache API
-= 0.3 =
-* Added timezone offset for UK
+* Includes locale updates and fix to remove past events from list
 
 == Upgrade Notice ==
 

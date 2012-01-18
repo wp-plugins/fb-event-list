@@ -31,7 +31,7 @@
 // make sure this api file is in your directory, if not get it here https://github.com/facebook/php-sdk/tree/master/src
 require 'facebook.php';
 
-// [fb_event_list appid="" pageid="" appsecret=""]
+// [fb_event_list appid="" pageid="" appsecret="" locale=""]
 function fb_event_list($atts){
 
 ob_start();
@@ -41,6 +41,7 @@ try {
 	'appid' => '',
 	'pageid' => '',
 	'appsecret' => '',
+	'locale' => 'Europe/London'
 	), $atts));
 
 
@@ -67,7 +68,7 @@ $facebook = new Facebook(array(
 //once it creates an event
 $fql    =   "SELECT name, pic, start_time, end_time, location, description, eid 
             FROM event WHERE eid IN ( SELECT eid FROM event_member WHERE uid = " . $pageid . " ) 
-            ORDER BY start_time asc";
+            AND start_time > now() ORDER BY start_time asc";
             
 $param  =   array(
 'method'    => 'fql.query',
@@ -96,8 +97,8 @@ foreach( $fqlResult as $keys => $values ){
 
     $start_dt->setTimestamp( $values['start_time']-28800 );
     $end_dt->setTimestamp( $values['end_time']-28800 );
-    $start_dt->setTimeZone( new DateTimeZone('Europe/London'));
-    $end_dt->setTimeZone( new DateTimeZone('Europe/London'));
+    $start_dt->setTimeZone( new DateTimeZone($locale));
+    $end_dt->setTimeZone( new DateTimeZone($locale'));
 
     $start_date = $start_dt->format( 'l, F d, Y' );
     $end_date = $end_dt->format( 'l, F d, Y' );
