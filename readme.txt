@@ -3,8 +3,8 @@ Contributors: jongsmith
 Donate link: 
 Tags: Facebook, events
 Requires at least: 3.2.1
-Tested up to: 3.2.1
-Stable tag: 0.1
+Tested up to: 3.3.1
+Stable tag: 0.4
 
 A plugin to generate a list of events from a Facebook fan page using a shortcode. 
 
@@ -36,7 +36,7 @@ Please visit the [Facebook Developer site](https://developers.facebook.com/apps)
 = 0.1 =
 * First version released as public beta.
 
-= 0.2 =
+= 0.4 =
 * Includes locale updates and fix to remove past events from list
 
 == Upgrade Notice ==

@@ -3,7 +3,7 @@
  * Plugin URI: http://www.wordsmith-communication.co.uk/
  * Description: A simple shortcode to generate an event list from a Facebook Fan Page. 
  * Author: Jon Smith
- * Version: 0.1
+ * Version: 0.4
  * Author URI: http://www.wordsmith-communication.co.uk/
  *
  * Copywrite 2011 Jon Smith (jon@wordsmith-communication.co.uk)
@@ -41,7 +41,7 @@ try {
 	'appid' => '',
 	'pageid' => '',
 	'appsecret' => '',
-	'locale' => 'Europe/London'
+	'fbLocale' => 'Europe/London'
 	), $atts));
 
 
@@ -97,8 +97,8 @@ foreach( $fqlResult as $keys => $values ){
 
     $start_dt->setTimestamp( $values['start_time']-28800 );
     $end_dt->setTimestamp( $values['end_time']-28800 );
-    $start_dt->setTimeZone( new DateTimeZone($locale));
-    $end_dt->setTimeZone( new DateTimeZone($locale'));
+    $start_dt->setTimeZone( new DateTimeZone($fbLocale));
+    $end_dt->setTimeZone( new DateTimeZone($fbLocale));
 
     $start_date = $start_dt->format( 'l, F d, Y' );
     $end_date = $end_dt->format( 'l, F d, Y' );
